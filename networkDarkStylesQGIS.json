@@ -481,7 +481,7 @@
   "minzoom": 17, 
   "layout": {
     "text-font": ["Metropolis Semi Bold", "Noto Sans Bold"], 
-    "text-size": [14], 
+    "text-size": 14, 
     "text-field": "{gnm_name}", 
     "visibility": "visible", 
     "text-anchor": "center", 
