@@ -1,0 +1,722 @@
+{
+
+  "version": 8,
+  "id": "network",
+  "name": "network",
+  "sources": {
+    "network": {
+      "type": "vector",
+
+      "maxzoom": 14
+    }
+  },
+  "layers": [
+    {
+        "id": "substation_extent",
+        "type": "fill",
+        "source": "network",
+        "source-layer": "substation",
+        "layout": {
+          "visibility": "visible"
+        },
+          "paint": {
+            "fill-color": "#99bad0",
+            "fill-opacity": 1,
+            "fill-antialias": true
+        }
+      },
+      {
+        "id": "buildings",
+        "type": "fill",
+        "source": "network",
+        "source-layer": "asset_containers",
+        "filter": ["==", "gnm_sub_class", "Building"],
+        "layout": {
+          "visibility": "visible"
+        },
+          "paint": {
+            "fill-color": "#315c74",
+            "fill-opacity": 1,
+            "fill-antialias": true
+        }
+      },
+    {
+        "id": "pole",
+        "type": "symbol",
+        "source": "network",
+        "source-layer": "pole",
+        "minzoom": 16,
+        "filter": ["!=", "contains_equipment", "True"],
+        "layout": {
+          "visibility": "visible",
+          "icon-image": "pole",
+          "icon-size": [
+            "interpolate", 
+              ["linear"], 
+              ["zoom"], 
+              16, 1, 
+              21, 2
+          ]
+        }
+      },
+      {
+        "id": "pole_w_eqpt",
+        "type": "symbol",
+        "source": "network",
+        "source-layer": "pole",
+        "minzoom": 16,
+        "filter": ["==", "contains_equipment", "True"],
+        "layout": {
+          "visibility": "visible",
+          "icon-image": "pole_w_eqpt",
+          "icon-size": [
+            "interpolate", 
+              ["linear"], 
+              ["zoom"], 
+              16, 1, 
+              21, 2
+          ]
+        }
+      }, 
+      {
+        "id": "hv_wires",
+        "type": "line",
+        "source": "network",
+        "source-layer": "cables_wires_busbars",
+        "minzoom": 6,
+        "filter": ["all", ["==", "voltage_levels", "HV"], ["==", "gnm_sub_class", "Wire"]],
+        "layout": {
+            "line-cap": "round",
+            "visibility": "visible"
+        },
+        "paint": {
+            "line-color": "#a67bec",
+            "line-width": 3
+        }
+    },
+    {
+      "id": "hv_cables",
+      "type": "line",
+      "source": "network",
+      "source-layer": "cables_wires_busbars",
+      "minzoom": 6,
+      "filter": ["all", ["==", "voltage_levels", "HV"], ["==", "gnm_sub_class", "Cable"]],
+      "layout": {
+          "line-cap": "round",
+          "visibility": "visible"
+      },
+      "paint": {
+          "line-color": "#a67bec",
+          "line-width": 3,
+          "line-dasharray": [2, 2]
+      }
+  },
+  {
+    "id": "hv_busbar",
+    "type": "line",
+    "source": "network",
+    "source-layer": "cables_wires_busbars",
+    "minzoom": 10,
+    "filter": ["all", ["==", "voltage_levels", "HV"], ["==", "gnm_class", "BusbarSection"]],
+    "layout": {
+        "line-cap": "round",
+        "visibility": "visible"
+    },
+    "paint": {
+        "line-color": "#a67bec",
+        "line-width": 3
+    }
+},
+{
+  "id": "mv_wires",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 14,
+  "filter": ["all", ["==", "voltage_levels", "MV"], ["==", "gnm_sub_class", "Wire"]],
+  "layout": {
+      "line-cap": "round",
+      "visibility": "visible"
+  },
+  "paint": {
+      "line-color": "#4156d1",
+      "line-width": 2
+  }
+},
+{
+  "id": "mv_cables",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 14,
+  "filter": ["all", ["==", "voltage_levels", "MV"], ["==", "gnm_sub_class", "Cable"]],
+  "layout": {
+    "line-cap": "round",
+    "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#4156d1",
+    "line-width": 2,
+    "line-dasharray": [2, 2]
+  }
+},
+{
+  "id": "mv_busbar",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 14,
+  "filter": ["all", ["==", "voltage_levels", "MV"], ["==", "gnm_class", "BusbarSection"]],
+  "layout": {
+  "line-cap": "round",
+  "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#4156d1",
+    "line-width": 2
+  }
+},
+{
+  "id": "unset_cables_wires_busbar",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 14,
+  "filter": ["==", "voltage_levels", ""],
+  "layout": {
+  "line-cap": "round",
+  "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#4156d1",
+    "line-width": 2
+  }
+}, 
+{
+  "id": "lv_wires",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 17,
+  "filter": ["all", ["==", "voltage_levels", "LV"], ["==", "gnm_sub_class", "Wire"]],
+  "layout": {
+      "line-cap": "round",
+      "visibility": "visible"
+  },
+  "paint": {
+      "line-color": "#82bdb1",
+      "line-width": 2
+  }
+},
+{
+  "id": "lv_cables",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 17,
+  "filter": ["all", ["==", "voltage_levels", "LV"], ["==", "gnm_sub_class", "Cable"]],
+  "layout": {
+    "line-cap": "round",
+    "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#82bdb1",
+    "line-width": 2,
+    "line-dasharray": [2, 2]
+  }
+},
+{
+  "id": "lv_busbar",
+  "type": "line",
+  "source": "network",
+  "source-layer": "cables_wires_busbars",
+  "minzoom": 17,
+  "filter": ["all", ["==", "voltage_levels", "LV"], ["==", "gnm_class", "BusbarSection"]],
+  "layout": {
+  "line-cap": "round",
+  "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#82bdb1",
+    "line-width": 2
+  }
+},
+
+{
+  "id": "ug_structure_route",
+  "type": "line",
+  "source": "network",
+  "source-layer": "structures",
+  "minzoom": 14,
+  "filter": ["==", "gnm_class", "UndergroundStructure"],
+  "layout": {
+  "line-cap": "round",
+  "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#7a7a7a",
+    "line-width": 3,
+    "line-dasharray": [2, 2]
+  }
+},
+{
+  "id": "oh_structure_route",
+  "type": "line",
+  "source": "network",
+  "source-layer": "structures",
+  "minzoom": 14,
+  "filter": ["==", "gnm_sub_class", "Aerial Route"],
+  "layout": {
+  "line-cap": "round",
+  "visibility": "visible"
+  },
+  "paint": {
+    "line-color": "#7a7a7a",
+    "line-width": 3
+  }
+},
+
+{
+  "id": "manholes",
+  "type": "symbol",
+  "source": "network",
+  "source-layer": "structures",
+  "minzoom": 14,
+  "filter": ["==", "gnm_sub_class", "Manhole"],
+  "layout": {
+    "visibility": "visible",
+    "icon-image": "manhole",
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        16, 1, 
+        21, 2
+    ]
+  }
+},
+{
+  "id": "structure_point",
+  "type": "symbol",
+  "source": "network",
+  "source-layer": "structures",
+  "minzoom": 16,
+  "filter": ["all", ["==", "gnm_sub_class", "Unurground Utilitty Box"], ["==", "contains_equipment", "False"]],
+  "layout": {
+    "visibility": "visible",
+    "icon-image": "ug_structure",
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        16, 1, 
+        21, 3
+    ]
+  }
+},
+{
+  "id": "structure_point_w_eqpt",
+  "type": "symbol",
+  "source": "network",
+  "source-layer": "structures",
+  "minzoom": 14,
+  "filter": ["all", ["==", "gnm_sub_class", "Unurground Utilitty Box"], ["==", "contains_equipment", "True"]],
+  "layout": {
+    "visibility": "visible",
+    "icon-image": "ug_structure_w_eqpt",
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        14, 1, 
+        21, 3
+          ]
+  }
+},
+{
+  "id": "cabinet",
+  "type": "symbol",
+  "source": "network",
+  "source-layer": "asset_containers",
+  "minzoom": 15,
+  "filter": ["==", "gnm_class", "Cabinet"],
+  "layout": {
+    "visibility": "visible",
+    "icon-image": "cabinet",
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        15, 1, 
+        21, 3
+          ]
+  }
+},
+{
+  "id": "miscellaneous_equipment",
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "equipment", 
+  "filter": ["all", ["!=", "gnm_class", "EnergyConnection"], ["!=", "gnm_class", "StreetLight"], ["!=", "gnm_class", "EquipmentContainer"], ["!=", "gnm_sub_class", "Access Point"]], 
+  "minzoom": 15, 
+  "layout": {
+    "visibility": "visible"
+    }, 
+  "paint": {
+    "circle-color": "#315C7E", 
+    "circle-radius": 7
+    }
+},
+{
+  "id": "street_light", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "equipment", 
+  "filter": ["==", "gnm_class", "StreetLight"], 
+  "minzoom": 17, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-image": "light", 
+    "icon-size": 1
+  }
+},
+{
+  "id": "hubs", 
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "asset_containers", 
+  "filter": ["==", "gnm_sub_class", "Hub"], 
+  "minzoom": 15, 
+  "layout": {
+    "visibility": "visible"
+  }, 
+  "paint": {
+    "circle-color": "#DBDD48", 
+    "circle-radius": 7
+  }
+},
+{
+  "id": "addresses_default", 
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "miscellaneous", 
+  "filter": ["all", ["==", "gnm_class", "Address"], ["any", ["!=", "type", "Commercial"], ["!=", "type", "Residential"], ["!=", "type", "MDU"]]], 
+  "minzoom": 16, 
+  "layout": {
+    "visibility": "visible"
+  }, 
+  "paint": {
+    "circle-color": "#444444", 
+    "circle-radius": 4,
+    "circle-stroke-color": "#cccccc",
+    "circle-stroke-width": 1
+  }
+},
+{
+  "id": "addresses_commerical", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "miscellaneous", 
+  "filter": ["all", ["==", "gnm_class", "Address"], ["==", "type", "Commercial"]], 
+  "minzoom": 16, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-allow-overlap": true,
+    "icon-image": "address_commercial", 
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        16, 1, 
+        21, 2
+          ]
+  }
+},
+{
+  "id": "addresses_residential", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "miscellaneous", 
+  "filter": ["all", ["==", "gnm_class", "Address"], ["==", "type", "Residential"]], 
+  "minzoom": 16, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-allow-overlap": true,
+    "icon-image": "address_residential", 
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        16, 1, 
+        21, 2
+          ]
+  }
+},  
+{
+  "id": "addresses_MDU", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "miscellaneous", 
+  "filter": ["all", ["==", "gnm_class", "Address"], ["==", "type", "MDU"]], 
+  "minzoom": 16, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-allow-overlap": true,
+    "icon-image": "address_MDU", 
+    "icon-size": [
+      "interpolate", 
+        ["linear"], 
+        ["zoom"], 
+        16, 1, 
+        21, 2
+          ]
+  }
+},
+{
+  "id": "address_label", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "miscellaneous", 
+  "filter": ["==", "gnm_class", "Address"], 
+  "minzoom": 17, 
+  "layout": {
+    "text-font": ["Metropolis Semi Bold", "Noto Sans Bold"], 
+    "text-size": [14], 
+    "text-field": "{gnm_name}", 
+    "visibility": "visible", 
+    "text-anchor": "center", 
+    "text-offset": [1.5, 1.5], 
+    "text-max-width": 10, 
+    "text-transform": "none", 
+    "text-keep-upright": true
+  }, 
+  "paint": {
+    "text-color": "hsl(204, 11%, 47%)", 
+    "text-opacity": [0.9], 
+    "text-halo-blur": 0, 
+    "text-halo-color": "hsl(0, 0%, 100%)", 
+    "text-halo-width": 1.5
+  }
+}, 
+{
+  "id": "energy_connection", 
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "equipment", 
+  "filter": ["==", "gnm_class", "EnergyConnection"], 
+  "minzoom": 17, 
+  "layout": {
+    "visibility": "visible"
+  }, 
+  "paint": {
+    "circle-color": "#5abff8", 
+    "circle-radius": 7
+  }
+}, 
+{
+  "id": "telco_connection", 
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "equipment", 
+  "filter": ["==", "gnm_sub_class", "Access Point"], 
+  "minzoom": 17, 
+  "layout": {
+    "visibility": "visible"
+  }, 
+  "paint": {
+    "circle-color": "#5abff8", 
+    "circle-radius": 7
+  }
+}, 
+{
+  "id": "transformer", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "transformers", 
+  "minzoom": 16, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-image": "tx", 
+    "icon-size": ["interpolate", ["linear"], ["zoom"], 16, 1, 21, 1.5]
+  }
+},
+{
+  "id": "switch_open", 
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "switches", 
+  "minzoom": 14, 
+  "filter": ["all", 
+    ["any", ["==", "gnm_class", "Breaker"], ["==", "gnm_class", "LoadBreakSwitch"]], 
+    ["any", ["==", "normal_open", "True"], ["==", "normal_open", "true"]]
+  ], 
+  "layout": {
+    "visibility": "visible"
+  }, 
+  "paint": {
+    "circle-color": "#7dbb22", 
+    "circle-radius": ["interpolate", ["linear"], ["zoom"], 15, 3, 21, 12]
+  }
+},
+{
+  "id": "switch_closed", 
+  "type": "circle", 
+  "source": "network", 
+  "source-layer": "switches", 
+  "minzoom": 14, 
+  "filter": ["all", 
+    ["any", ["==", "gnm_class", "Breaker"], ["==", "gnm_class", "LoadBreakSwitch"]], 
+    ["any", ["==", "normal_open", "False"], ["==", "normal_open", "false"]]
+  ], 
+  "layout": {
+    "visibility": "visible"
+  }, 
+  "paint": {
+    "circle-color": "#de5558", 
+    "circle-radius": ["interpolate", ["linear"], ["zoom"], 15, 3, 21, 12]
+  }
+}, 
+{
+  "id": "fuse_open", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "switches", 
+  "filter": ["all", ["==", "gnm_class", "Fuse"], ["any", ["==", "normal_open", "True"], ["==", "normal_open", "true"]]], 
+  "minzoom": 14, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-image": "fuse_open", 
+    "icon-size": ["interpolate", ["linear"], ["zoom"], 16, 1, 21, 1.5]
+  }
+},  
+{
+  "id": "fuse_closed", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "switches", 
+  "filter": ["all", ["==", "gnm_class", "Fuse"], ["any", ["==", "normal_open", "False"], ["==", "normal_open", "false"]]], 
+  "minzoom": 14, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-image": "fuse_closed", 
+    "icon-size": ["interpolate", ["linear"], ["zoom"], 16, 1, 21, 1.5]
+  }
+}, 
+{
+  "id": "substation_point", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "substation", 
+  "minzoom": 14, 
+  "layout": {
+    "visibility": "visible", 
+    "icon-image": "substation", 
+    "icon-size": 1
+  }
+}, 
+{
+  "id": "substation_label", 
+  "type": "symbol", 
+  "source": "network", 
+  "source-layer": "substation", 
+  "minzoom": 6, 
+  "layout": {
+    "text-font": ["Metropolis Semi Bold", "Noto Sans Bold"], 
+    "text-size": [16], 
+    "text-field": "{gnm_name}", 
+    "visibility": "visible", 
+    "text-anchor": "center", 
+    "text-offset": [1.5, 1.5], 
+    "text-max-width": 10, 
+    "text-transform": "none", 
+    "text-keep-upright": true}, 
+    "paint": {
+      "text-color": "hsl(204, 11%, 47%)", 
+      "text-opacity": [0.9], 
+      "text-halo-blur": 0, 
+      "text-halo-color": "hsl(0, 0%, 100%)", 
+      "text-halo-width": 1.5
+    }
+  }, 
+  {
+    "id": "pole_label", 
+    "type": "symbol", 
+    "source": "network", 
+    "source-layer": "pole", 
+    "minzoom": 18, 
+    "layout": {
+      "text-font": ["Metropolis Semi Bold", "Noto Sans Bold"], 
+      "text-size": [16], 
+      "text-field": "{gnm_name}", 
+      "visibility": "visible", 
+      "text-anchor": "center", 
+      "text-offset": [1.5, 1.5], 
+      "text-max-width": 10, 
+      "text-transform": "none", 
+      "text-keep-upright": true
+    }, 
+    "paint": {
+      "text-color": "hsl(204, 11%, 47%)", 
+      "text-opacity": [0.9], 
+      "text-halo-blur": 0, 
+      "text-halo-color": "hsl(0, 0%, 100%)", 
+      "text-halo-width": 1.5
+    }
+  }, 
+  {
+    "id": "ug_point_label", 
+    "type": "symbol", 
+    "source": "network", 
+    "source-layer": "structures", 
+    "filter": ["==", "gnm_sub_class", "Unurground Utilitty Box"], 
+    "minzoom": 18, 
+    "layout": {
+      "text-font": ["Metropolis Semi Bold", "Noto Sans Bold"], 
+      "text-size": [16], 
+      "text-field": "{gnm_name}", 
+      "visibility": "visible", 
+      "text-anchor": "center", 
+      "text-offset": [1.5, 1.5], 
+      "text-max-width": 10, 
+      "text-transform": "none", 
+      "text-keep-upright": true
+    }, 
+    "paint": {
+      "text-color": "hsl(204, 11%, 47%)", 
+      "text-opacity": [0.9], 
+      "text-halo-blur": 0, 
+      "text-halo-color": "hsl(0, 0%, 100%)", 
+      "text-halo-width": 1.5
+    }
+  }, 
+  {
+    "id": "switch_label", 
+    "type": "symbol", 
+    "source": "network", 
+    "source-layer": "switches", 
+    "minzoom": 17, 
+    "layout": {
+      "text-font": ["Metropolis Semi Bold", "Noto Sans Bold"], 
+      "text-size": [16], 
+      "text-field": "{gnm_name}", 
+      "visibility": "visible", 
+      "text-anchor": "center", 
+      "text-offset": [1.5, 1.5], 
+      "text-max-width": 10, 
+      "text-transform": "none", 
+      "text-keep-upright": true
+    }, 
+    "paint": {
+      "text-color": "hsl(204, 11%, 47%)", 
+      "text-opacity": [0.9], 
+      "text-halo-blur": 0, 
+      "text-halo-color": "hsl(0, 0%, 100%)", 
+      "text-halo-width": 1.5
+    }
+  }
+
+
+
+  ],
+  "sprite": "../spritesheetDark"
+}
